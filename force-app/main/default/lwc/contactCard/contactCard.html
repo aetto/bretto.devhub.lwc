@@ -1,52 +1,68 @@
 <template>
-    <lightning-card title={contact.Name}>
-        <h3 slot="title">
-            {contact.Name}
-        </h3>
+    <lightning-card>
+        <div slot="title">
+            <h3 class="">
+                {contact.Salutation} {contact.FirstName} {contact.LastName}
+            </h3>
+            <lightning-badge label={contact.Title}></lightning-badge>
+        </div>
+        <lightning-button-icon-stateful slot="actions" icon-name="action:edit" selected={editable}
+            onclick={toggleEditable} alternative-text="Edit"></lightning-button-icon-stateful>
         <lightning-layout multiple-rows="true">
             <lightning-layout-item size=12 padding='around-medium'>
                 <template if:true={editable}>
-                        <lightning-input-name label="Name" salutation={contact.Salutation} first-name={contact.FirstName} last-name={contact.LastName} variant="label-inline" ></lightning-input-name>
+                    <lightning-input-name label="Name" salutation={contact.Salutation} first-name={contact.FirstName}
+                        last-name={contact.LastName} variant="label-inline" onchange={bindName}></lightning-input-name>
                 </template>
                 <template if:false={editable}>
-                    <lightning-layout-item size=12 padding='around-medium'>
-                        <label>
-                            Name: 
-                        </label>
-                        <lightning-formatted-name salutation={contact.Salutation} first-name={contact.FirstName} last-name={contact.LastName} ></lightning-formatted-name>
-                    </lightning-layout-item>    
+                    <label>
+                        Name:
+                    </label>
+                    <lightning-formatted-name salutation={contact.Salutation} first-name={contact.FirstName}
+                        last-name={contact.LastName}></lightning-formatted-name>
                 </template>
-        </lightning-layout-item>    
-        <lightning-layout-item size=12 padding='around-medium'>
-            <template if:true={editable}>
-                <lightning-input type="email" label="Email" value={contact.Email} variant="label-inline"></lightning-input>
-            </template> 
-            <template if:false={editable}>
-                <label>
-                    Email:
-                </label>
-                <lightning-formatted-email value={contact.Email}></lightning-formatted-email>    
-            </template>
-        </lightning-layout-item>
-        
-        <template if:true={showMore}>
+            </lightning-layout-item>
             <lightning-layout-item size=12 padding='around-medium'>
-                <label>
-                    Address:
-                </label>
-                <lightning-formatted-address city={contact.City} country={contact.Country} street={contact.Street} postal-code={contact.PostalCode} province={contact.Province}></lightning-formatted-address>
-            </lightning-layout-item>    
-        </template>
-    </lightning-layout>
+                <template if:true={editable}>
+                    <lightning-input type="email" label="Email" value={contact.Email} variant="label-inline">
+                    </lightning-input>
+                </template>
+                <template if:false={editable}>
+                    <label>
+                        Email:
+                    </label>
+                    <lightning-formatted-email value={contact.Email}></lightning-formatted-email>
+                </template>
+            </lightning-layout-item>
+
+            <lightning-layout-item size=12 padding='around-medium'>
+                <template if:true={showMore}>
+                    <template if:true={editable}>
+                        <lightning-input-address address-label="Address" street-label="Street" city-label="City"
+                            country-label="Country" province-label="Province" postal-code-label="PostalCode"
+                            street="121 Spear St." city={contact.City} country={contact.Country}
+                            province={contact.Province} postal-code={contact.PostalCode} required
+                            field-level-help="Input Address"></lightning-input-address>
+                    </template>
+                    <template if:false={editable}>
+                        <label>
+                            Address:
+                        </label>
+                        <lightning-formatted-address city={contact.City} country={contact.Country}
+                            street={contact.Street} postal-code={contact.PostalCode} province={contact.Province}>
+                        </lightning-formatted-address>
+                    </template>
+                </template>
+            </lightning-layout-item>
+        </lightning-layout>
 
         <a slot="footer" onclick={showMoreFields}>
             <template if:true={showMore}>
                 View less..
-            </template> 
+            </template>
             <template if:false={showMore}>
                 View more..
-            </template> 
+            </template>
         </a>
-        <lightning-button-icon-stateful slot="actions" icon-name="action:edit" selected={editable} onclick={toggleEditable} alternative-text="Edit"></lightning-button-icon-stateful>
     </lightning-card>
 </template>

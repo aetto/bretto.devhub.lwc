@@ -1,0 +1,15 @@
+<template>
+    <lightning-button-icon-stateful slot="actions" size="medium" icon-name="action:edit" selected={editable}
+        onclick={makeAllEditable} alternative-text="Edit All" variant="border-filled"></lightning-button-icon-stateful>
+        <lightniing-card title="Contacts">
+            <p> Primary Contact: {primaryContact.Name}</p>
+            <template for:each={contactsList} for:item="contact" for:index=indexVar>
+                <c-contact-card key={contact.Id} contact={contact} onnnamechange={handleNameChange}></c-contact-card>
+            </template>        
+        </lightniing-card>
+    <!--template iterator:con={contactsList}>
+        <span key={con.value.Id} class="slds-m-around_medium">
+        <c-contact-card key={con.value.Id} contact={con.value}></c-contact-card>
+            </span>
+    </template-->
+</template>
